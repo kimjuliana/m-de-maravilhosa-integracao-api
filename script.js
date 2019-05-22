@@ -15,24 +15,26 @@ fetch('https://theblackwomanhistory.firebaseio.com/.json')
         let link = document.createElement('a');
         link.href = '#!';
         perfil.appendChild(link);
-
+        
         let imagem = document.createElement('img');
         imagem.setAttribute('class', 'img-responsive');
-        imagem.src = '#!';
-        link.appendChild(imagem);
-
-        const image = document.createElement('img')
-        if(mulher.metadata.imagem !== null){
-            return image
-
-        }else{
-            return imagem.src= img-mulher.png
-        };
         
+        link.appendChild(imagem);
         let nome = document.createElement('p');
         nome.innerHTML = mulher.title;
         link.appendChild(nome);
-
+        
+        if(mulher.metadata){
+            if(mulher.metadata.image){
+                if(mulher.metadata.image.url){
+                    return imagem.src = mulher.metadata.image.url
+                }
+            }else{
+                    return imagem.setAttribute("src", "./img/img-mulher.png")
+                }
+        }else{
+            return imagem.setAttribute("src", "./img/img-mulher.png")
+        };
         
     })
 })
