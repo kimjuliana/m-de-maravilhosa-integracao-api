@@ -42,3 +42,21 @@ fetch('http://localhost:5001/maravilhosas')
     console.log(erro);
 })
 
+fetch ('http://localhost:5001/maravilhosas', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+})
+.then((response) => {
+    return response.json();
+})
+.then((data) =>{
+    console.log(data);
+
+})
+.catch((erro) => {
+    console.log(erro);
+})
