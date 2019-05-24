@@ -1,4 +1,6 @@
 const box = document.querySelector(".maravilhosas__box");
+let pessoa = document.querySelector(".name");
+let foto = document.querySelector(".imagem");
 
 fetch('http://localhost:5001/maravilhosas')
 
@@ -19,9 +21,10 @@ fetch('http://localhost:5001/maravilhosas')
         let imagem = document.createElement('img');
         imagem.setAttribute('class', 'img-responsive');
         
+        
         link.appendChild(imagem);
         let nome = document.createElement('p');
-        nome.innerHTML = mulher.title;
+        nome.innerHTML = mulher.title || mulher.nome;
         link.appendChild(nome);
         
         if(mulher.metadata){
@@ -32,7 +35,10 @@ fetch('http://localhost:5001/maravilhosas')
             }else{
                     return imagem.setAttribute("src", "./img/img-mulher.png")
                 }
-        }else{
+        }else if (mulher.foto){
+        imagem.setAttribute('src', mulher.foto)
+        }
+        else{
             return imagem.setAttribute("src", "./img/img-mulher.png")
         };
         
@@ -42,21 +48,64 @@ fetch('http://localhost:5001/maravilhosas')
     console.log(erro);
 })
 
-fetch ('http://localhost:5001/maravilhosas', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+
+
+
+const botao = document.querySelector('.botao');
+botao.addEventListener('click', () =>{
+    // location.reload();
+
+    fetch ('http://localhost:5001/maravilhosas', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "title": pessoa.value,
+            "foto": foto.value,
+        
+        })
+    
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) =>{
+        console.log(data);
+    
+    })
+    .catch((erro) => {
+        console.log(erro);
 })
-.then((response) => {
+})
+
+
+const botaoDeletar = document.createElement('button');
+botaoDeletar.innerHTML = "x";
+botao.setAttribute('class', 'deletar');
+botao.setAttribute('data-id', 'mulher.id');
+perfil.appendChild(botaoDeletar);
+
+botaoDeletar.addEventListener('click', () =>{
+    fetch('localhost:5001/maravilhosas', {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "id":botao.getAttribute("data-id")
+            
+    })
+})
+.then((response) =>{
     return response.json();
 })
-.then((data) =>{
+.then((data) => {
     console.log(data);
-
 })
 .catch((erro) => {
     console.log(erro);
+})
 })
